@@ -1,21 +1,29 @@
-import React, { Component } from 'react';
+// Functional Component System
+
+import React, { useState } from 'react';
 import './BurgerStyle.css';
 
-export default class Burger extends Component {
-    state = {
-        lettuce: 0,
-        tomato: 0,
-        cheese: 0,
-        meat: 0
-    }
+const Burger = () => {
+    const [state, setState] = useState({
+      lettuce: 0,
+      tomato: 0,
+      cheese: 0,
+      meat: 0,
+    });
+    // state = {
+    //     lettuce: 0,
+    //     tomato: 0,
+    //     cheese: 0,
+    //     meat: 0
+    // }
 
-    addRemoveIngredient = (action, ingredient) => {
+    const addRemoveIngredient = (action, ingredient) => {
         let {
             lettuce,
             tomato,
             cheese,
             meat
-        } = this.state;
+        } = state;
 
         let stateValue;
         switch(ingredient){
@@ -42,18 +50,22 @@ export default class Burger extends Component {
         }else{
             stateValue = stateValue - 1;
         }
-        this.setState({
-            [ingredient]: stateValue >= 0 ? stateValue : 0
-        });
+        
+
+        setState(prevValue => {
+            return { ...prevValue, [ingredient]: stateValue>=0 ? stateValue : 0 };
+        })
+
+        // console.log(state)
     }
 
-    burgerContent = () => {
+    const burgerContent = () => {
         let {
             lettuce,
             tomato,
             cheese,
             meat
-        } = this.state;
+        } = state;
         let burger = [];
 
         // outputting the lettuce
@@ -77,37 +89,38 @@ export default class Burger extends Component {
         return burger;
     }
 
-    render(){
         return (
             <>
                 <div className="burgerIngredients">
                     <div className="topSide"></div>
-                    {this.burgerContent()}
+                    {burgerContent()}
                     <div className="bottomSide"></div>
                 </div>
                 <div className="ingredientsBlock">
                     <p>Lettuce</p>
                     <div className="ingrBtns">
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('add','lettuce')}>Add</button>
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('remove','lettuce')}>Remove</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('add','lettuce')}>Add</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('remove','lettuce')}>Remove</button>
                     </div>
                     <p>TOMATO</p>
                     <div className="ingrBtns">
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('add','tomato')}>Add</button>
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('remove','tomato')}>Remove</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('add','tomato')}>Add</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('remove','tomato')}>Remove</button>
                     </div>
                     <p>CHEESE</p>
                     <div className="ingrBtns">
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('add','cheese')}>Add</button>
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('remove','cheese')}>Remove</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('add','cheese')}>Add</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('remove','cheese')}>Remove</button>
                     </div>
                     <p>MEAT</p>
                     <div className="ingrBtns">
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('add','meat')}>Add</button>
-                        <button className="ingrBtn" onClick={() => this.addRemoveIngredient('remove','meat')}>Remove</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('add','meat')}>Add</button>
+                        <button className="ingrBtn" onClick={() => addRemoveIngredient('remove','meat')}>Remove</button>
                     </div>
                 </div>
             </>
         );
     }
-}
+
+
+export default Burger
